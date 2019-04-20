@@ -2,6 +2,10 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import LocalStore from '../util/localStore'
 import {CITYNAME} from '../config/localStoreKey'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import * as userInfoActionsFormOtherFile from '../actions/userinfo'
+
 class App extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -29,6 +33,9 @@ class App extends React.Component {
         if (cityName == null) {
             cityName = '北京'
         }
+        this.props.userInfoActions.login({
+            cityName: cityName
+        })
         //将城市信息存储到 Redux  
         console.log(cityName);
         this.setState({
@@ -38,4 +45,20 @@ class App extends React.Component {
     }
 }
 
-export default App
+function mapStateToProps(state){
+    return {
+
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        userInfoActions: bindActionCreators(
+            userInfoActionsFormOtherFile, dispatch),
+    }
+}
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App)
+//export default App
